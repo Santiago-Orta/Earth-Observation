@@ -94,11 +94,12 @@ class mtf:
         #TODO
         fstepAlt = 1 / nlines / w
         fstepAct = 1 / ncolumns / w
+        eps=1e-6
         fAlt = np.arange(-1 / (2 * w), 1 / (2 * w) - eps, fstepAlt)
         fAct = np.arange(-1 / (2 * w), 1 / (2 * w) - eps, fstepAct)
 
-        [fnAltxx, fnActxx] = np.meshgrid(fnAlt, fnAct, indexing='ij')  # Please use ‘ij’ indexing or you will get the transpose
-        f2D = np.sqrt(fnAltxx * fnAltxx + fnActxx * fnActxx)
+        [fAltxx, fActxx] = np.meshgrid(fAlt, fAct, indexing='ij')  # Please use ‘ij’ indexing or you will get the transpose
+        f2D = np.sqrt(fAltxx * fAltxx + fActxx * fActxx)
         fc=D/(lambd*focal)
         fn2D=f2D*w # Cut-off frequency (page 46)
         fr2D=f2D*fc
@@ -114,6 +115,8 @@ class mtf:
         :return: diffraction MTF
         """
         #TODO
+        Hdiff=(2/np.pi)*(np.arccos(fr2D)-( fr2D*sqrt(1-(fr2D**2))  )) #page 49
+
         return Hdiff
 
 
@@ -127,6 +130,8 @@ class mtf:
         :return: Defocus MTF
         """
         #TODO
+        x=np.pi*defocus*fr2D*(1-fr2D)
+        Hdefoc=2*j1(x)/x #page 51
         return Hdefoc
 
     def mtfWfeAberrations(self, fr2D, lambd, kLF, wLF, kHF, wHF):
@@ -141,6 +146,8 @@ class mtf:
         :return: WFE Aberrations MTF
         """
         #TODO
+        Hwfe= np.exp(-fr2D * (1 - fr2D) * (kLF * (wLF / lambd) ** 2 + kHF * (wHF / lambd) ** 2) )
+
         return Hwfe
 
     def mtfDetector(self,fn2D):
@@ -150,6 +157,8 @@ class mtf:
         :return: detector MTF
         """
         #TODO
+        Hdet=np.abs(sin(np.pi*fn2D*w)/np.pi*fn2D*w) # p53
+
         return Hdet
 
     def mtfSmearing(self, fnAlt, ncolumns, ksmear):
@@ -161,6 +170,9 @@ class mtf:
         :return: Smearing MTF
         """
         #TODO
+        for n in range(ncolumns):
+            Hsmear[:,n]=np.sinc(ksmear*fnAlt)
+
         return Hsmear
 
     def mtfMotion(self, fn2D, kmotion):
@@ -171,6 +183,8 @@ class mtf:
         :return: detector MTF
         """
         #TODO
+        Hmotion=np.sinc(kmotion*fn2D)
+
         return Hmotion
 
     def plotMtf(self,Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys, nlines, ncolumns, fnAct, fnAlt, directory, band):
