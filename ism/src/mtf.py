@@ -92,6 +92,19 @@ class mtf:
         :return fnAlt: 1D normalised frequencies 2D ALT (f/(1/w))
         """
         #TODO
+        fstepAlt = 1 / nlines / w
+        fstepAct = 1 / ncolumns / w
+        fAlt = np.arange(-1 / (2 * w), 1 / (2 * w) - eps, fstepAlt)
+        fAct = np.arange(-1 / (2 * w), 1 / (2 * w) - eps, fstepAct)
+
+        [fnAltxx, fnActxx] = np.meshgrid(fnAlt, fnAct, indexing='ij')  # Please use ‘ij’ indexing or you will get the transpose
+        f2D = np.sqrt(fnAltxx * fnAltxx + fnActxx * fnActxx)
+        fc=D/(lambd*focal)
+        fn2D=f2D*w # Cut-off frequency (page 46)
+        fr2D=f2D*fc
+        fnAct=fAct*w
+        fnAlt=fAlt*w
+
         return fn2D, fr2D, fnAct, fnAlt
 
     def mtfDiffract(self,fr2D):
