@@ -173,7 +173,7 @@ class detectionPhase(initIsm):
         #TODO
         #pizarra: np.abs(np.random.standard_deviation(toa.shape[1]))
         #ism_toa_e_VNIR - 0.nc
-        dsnu=np.random.standard_normal(toa.shape[1])*kdsnu
+        dsnu=np.abs(np.random.standard_normal(toa.shape[1])*kdsnu)
         sd=ds_A_coeff*( (T/Tref)**3 )*np.exp(-ds_B_coeff*( (1/T)-(1/Tref) ))
         ds=sd*(1+dsnu)
         for k in range(toa.shape[1]):
