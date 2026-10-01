@@ -109,7 +109,7 @@ class detectionPhase(initIsm):
 
 
         E_in=toa*area_pix*tint*1e-3
-        E_ph=self.constants.h_planck*self.constants.speed_lightwv
+        E_ph=self.constants.h_planck*self.constants.speed_light/wv
         toa_ph=E_in/E_ph
         return toa_ph
 
@@ -122,9 +122,11 @@ class detectionPhase(initIsm):
         """
         #TODO
         toae=toa*QE
-        for k in range(toae.shape[1]):
-            if toae[k]>self.ismConfig.FWC:
-                toae[k]=self.ismConfig.FWC
+
+        for j in range (toae.shape[0]):
+            for k in range(toae.shape[1]):
+                if toae[j,k]>self.ismConfig.FWC:
+                    toae[j,k]=self.ismConfig.FWC
 
         return toae
 
@@ -153,7 +155,7 @@ class detectionPhase(initIsm):
         prnu=np.random.standard_normal(toa.shape[1])*kprnu
         #prnu_eff = np.random.normal(0, 1, toa.shape[1])  # Standard normal distribution
         for k in range(toa.shape[1]):
-            toa[:,k]=toa[:,k]*(1+prnu)
+            toa[:,k]=toa[:,k]*(1+prnu[k])
         return toa
 
 
@@ -175,5 +177,5 @@ class detectionPhase(initIsm):
         sd=ds_A_coeff*( (T/Tref)**3 )*np.exp(-ds_B_coeff*( (1/T)-(1/Tref) ))
         ds=sd*(1+dsnu)
         for k in range(toa.shape[1]):
-            toa[:,k]=toa[:,k]*(1+ds)
+            toa[:,k]=toa[:,k]*(1+ds[k])
         return toa

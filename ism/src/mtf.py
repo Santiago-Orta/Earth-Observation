@@ -69,7 +69,7 @@ class mtf:
 
         # Calculate the System MTF
         self.logger.debug("Calculation of the Sysmtem MTF by multiplying the different contributors")
-        Hsys = 1 # dummy
+        Hsys = Hdefoc*Hdet*Hdiff*Hmotion*Hsmear*Hwfe # dummy
 
         # Plot cuts ACT/ALT of the MTF
         self.plotMtf(Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys, nlines, ncolumns, fnAct, fnAlt, directory, band)
@@ -102,7 +102,7 @@ class mtf:
         f2D = np.sqrt(fAltxx * fAltxx + fActxx * fActxx)
         fc=D/(lambd*focal)
         fn2D=f2D*w # Cut-off frequency (page 46)
-        fr2D=f2D*fc
+        fr2D=f2D/fc
         fnAct=fAct*w
         fnAlt=fAlt*w
 
