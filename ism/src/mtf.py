@@ -115,7 +115,7 @@ class mtf:
         :return: diffraction MTF
         """
         #TODO
-        Hdiff=(2/np.pi)*(np.arccos(fr2D)-( fr2D*sqrt(1-(fr2D**2))  )) #page 49
+        Hdiff=(2/np.pi)*(np.arccos(fr2D)-( fr2D*np.sqrt(1-(fr2D**2))  )) #page 49
 
         return Hdiff
 
@@ -157,7 +157,7 @@ class mtf:
         :return: detector MTF
         """
         #TODO
-        Hdet=np.abs(sin(np.pi*fn2D*w)/np.pi*fn2D*w) # p53
+        Hdet=np.abs(np.sinc(fn2D)) # p53
 
         return Hdet
 
@@ -170,6 +170,7 @@ class mtf:
         :return: Smearing MTF
         """
         #TODO
+        Hsmear=np.zeros((np.size(fnAlt),ncolumns))
         for n in range(ncolumns):
             Hsmear[:,n]=np.sinc(ksmear*fnAlt)
 
@@ -208,11 +209,6 @@ class mtf:
         #TODO
         #7.1.3.19
         #ism_toa_optical_VNIR-0.nc
-        plt.plot(ncolumns, Hdiff[0,:])
-        plt.title("System MTF)
-        plt.xlabel("Spatial Frequencies")
-        plt.ylabel("MTF")
-        plt.grid(True)
-        plt.show()
+
 
 
