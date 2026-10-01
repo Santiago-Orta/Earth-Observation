@@ -206,5 +206,13 @@ class mtf:
         :return: N/A
         """
         #TODO
+        #7.1.3.19
+        #ism_toa_optical_VNIR-0.nc
+        plt.plot(ncolumns, Hdiff[0,:])
+        plt.title("System MTF)
+        plt.xlabel("Spatial Frequencies")
+        plt.ylabel("MTF")
+        plt.grid(True)
+        plt.show()
 
 

@@ -1,3 +1,4 @@
+from scipy.constants import speed_of_light
 
 from ism.src.initIsm import initIsm
 import numpy as np
@@ -105,6 +106,11 @@ class detectionPhase(initIsm):
         :return: Toa in photons
         """
         #TODO
+        self.constants.h_planck
+        self.constants.h_planck
+        E_in=toa*area_pix*tint
+        E_ph=h_planck*speed_of_light/wv
+        toa_ph=E_in/E_ph
         return toa_ph
 
     def phot2Electr(self, toa, QE):
@@ -115,6 +121,9 @@ class detectionPhase(initIsm):
         :return: toa in electrons
         """
         #TODO
+        toae=toa*QE
+        toae[toae>self.ismConfig.FWC]=self.ismConfig.FWC
+
         return toae
 
     def badDeadPixels(self, toa,bad_pix,dead_pix,bad_pix_red,dead_pix_red):
@@ -138,6 +147,10 @@ class detectionPhase(initIsm):
         :return: TOA after adding PRNU [e-]
         """
         #TODO
+        prnu=np.random.standard_normal(toa.shape[1])*kprnu
+        #prnu_eff = np.random.normal(0, 1, toa.shape[1])  # Standard normal distribution
+        for k in range(toa.shape[1]):
+            toa[:,k]=toa[:,k]*(1+prnu)
         return toa
 
 
@@ -153,4 +166,11 @@ class detectionPhase(initIsm):
         :return: TOA in [e-] with dark signal
         """
         #TODO
+        #pizarra: np.abs(np.random.standard_deviation(toa.shape[1]))
+        #ism_toa_e_VNIR - 0.nc
+        dsnu=np.random.standard_normal(toa.shape[1])*kdsnu
+        sd=ds_A_coeff*( (T/Tref)**3 )*np.exp(-ds_B_coeff*( (1/T)-(1/Tref) ))
+        ds=sd*(1+dsnu)
+        for k in range(toa.shape[1]):
+            toa[:,k]=toa[:,k]*(1+ds)
         return toa
