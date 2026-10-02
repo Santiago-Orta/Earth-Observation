@@ -72,7 +72,14 @@ class videoChainPhase(initIsm):
         max_dn=bit_depth**2
         min_dn=0
 
-        toa_dn=np.round( (toa/(max_voltage-min_voltage) * ((2**bit_depth)-1)) )
+        toa_dn=np.round( (toa/(max_voltage-min_voltage)) * ((2**bit_depth)-1))
+        for j in range (toa_dn.shape[0]):
+            for k in range(toa_dn.shape[1]):
+                if toa_dn[j,k]>max_dn:
+                    toa_dn[j,k]=max_dn
+                elif toa_dn[j,k]<min_dn:
+                    toa_dn[j,k]=min_dn
+
         return toa_dn
 
     #Check final output: ism_toa_VNIR-0
