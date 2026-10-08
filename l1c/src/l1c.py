@@ -104,5 +104,5 @@ class l1c(initL1c):
         if lat.shape != toa.shape:
             self.logger.error("Radiances and geodetic coordinates have different sizes")
             exit()
-            
+
         #TODO
