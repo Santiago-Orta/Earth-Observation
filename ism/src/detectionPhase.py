@@ -176,6 +176,8 @@ class detectionPhase(initIsm):
         dsnu=np.abs(np.random.standard_normal(toa.shape[1]))*kdsnu
         sd= ds_A_coeff * ( (T/Tref)**3 ) * np.exp(-ds_B_coeff * ( (1/T)-(1/Tref) ))
         ds=sd*(1+dsnu)
-        for k in range(toa.shape[1]):
-            toa[:,k]=toa[:,k]*(1+ds[k])
+        #for k in range(toa.shape[1]):
+        #    toa[:,k]=toa[:,k]*(1+ds[k])
+
+        toa = toa + ds
         return toa
