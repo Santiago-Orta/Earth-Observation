@@ -5,8 +5,9 @@ from l1b.src.l1b import l1b
 
 # Directory - this is the common directory for the execution of the E2E, all modules
 auxdir = r'C:/Users/cc/Santi/UC3M/EO/Earth-Observation/auxiliary'
-indir = r"C:/Users/cc/Santi/UC3M/EO/EODP_TER_2021/EODP-TS-L1B/input"
-outdir = r"C:/Users/cc/Santi/UC3M/EO/EODP_TER_2021/EODP-TS-L1B/myoutputs"
+#indir = r"C:/Users/cc/Santi/UC3M/EO/EODP_TER_2021/EODP-TS-L1B/input"
+indir = r"C:/Users/cc/Santi/UC3M/EO/EODP_TER_2021/EODP-TS-ISM/myoutput" #<== ISM OUTPUT FROM PREVIOUS EXECUTION
+outdir = r"C:/Users/cc/Santi/UC3M/EO/EODP_TER_2021/EODP-TS-L1B/myoutputs_l1b"
 
 # Initialise the ISM
 myL1b = l1b(auxdir, indir, outdir)
