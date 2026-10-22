@@ -78,7 +78,7 @@ class l1c(initL1c):
         mgrs_tiles = list(mgrs_tiles)
 
         lat_l1c=np.zeros(len(mgrs_tiles))
-        lon_1c=np.zeros(len(mgrs_tiles))
+        lon_l1c=np.zeros(len(mgrs_tiles))
         toa_l1c=np.zeros(len(mgrs_tiles))
 
         #tck=bisplrep(lat,lon,toa)
